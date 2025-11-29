@@ -25,7 +25,12 @@ def num_eights(n):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    if n == 0:
+        return 0;
+    if n % 10 == 8:
+        return 1 + num_eights(n // 10)
+    else:
+        return num_eights(n // 10)
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -47,6 +52,13 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return 0
+    else:
+        last ,n = n % 10, n // 10
+        last_distance = abs(last - (n % 10))
+        return last_distance + digit_distance(n)
+
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -71,6 +83,16 @@ def interleaved_sum(n, odd_func, even_func):
     True
     """
     "*** YOUR CODE HERE ***"
+
+    def sum_from(k):
+        if k > n:
+            return 0
+        elif k == n:
+            return odd_func(k)
+        else:
+            return odd_func(k) + even_func(k + 1) + sum_from(k + 2)
+
+    return sum_from(1)
 
 
 def next_smaller_dollar(bill):
@@ -107,7 +129,17 @@ def count_dollars(total):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    def count(total,largest):
+        if total == 0:
+            return 1
+        if total < 0:
+            return 0
+        if largest == None:
+            return 0
+        NoLargest = count(total,next_smaller_dollar(largest))
+        WithLargest = count(total-largest,largest)
+        return NoLargest + WithLargest
+    return count(total,100)
 
 def next_larger_dollar(bill):
     """Returns the next larger bill in order."""
@@ -144,6 +176,19 @@ def count_dollars_upward(total):
     """
     "*** YOUR CODE HERE ***"
 
+    def count(total,smallest):
+        if total == 0:
+            return 1
+        if total < 0:
+            return 0
+        if smallest == None:
+            return 0
+        NoSmallest = count(total,next_larger_dollar(smallest))
+        WithSmallest = count(total-smallest,smallest)
+        return NoSmallest + WithSmallest
+    return count(total,1)
+
+
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
@@ -178,6 +223,13 @@ def move_stack(n, start, end):
     """
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
+    if(n == 1):
+        print_move(start,end)
+    else:
+        other = 6 - start - end
+        move_stack(n-1,start,other)
+        print_move(start,end)
+        move_stack(n-1,other,end)
 
 
 from operator import sub, mul
@@ -193,5 +245,5 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
+    return (lambda f:f(f))(lambda f:lambda k:1 if k==1 else mul(k,f(f)(sub(k,1))))
 
