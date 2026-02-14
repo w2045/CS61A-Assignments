@@ -204,9 +204,7 @@ def move_stack(n, start, end):
 
     There are exactly three poles, and start and end must be different. Assume
     that the start pole has at least n disks of increasing size, and the end
-    pole is either empty or has a top disk larger than the top n start disks.
-
-    >>> move_stack(1, 1, 3)
+    pole is either >> move_stack(1, 1, 3)
     Move the top disk from rod 1 to rod 3
     >>> move_stack(2, 1, 3)
     Move the top disk from rod 1 to rod 2

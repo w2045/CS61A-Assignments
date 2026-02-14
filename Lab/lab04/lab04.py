@@ -1,3 +1,34 @@
+def divisible_by_k(n, k):
+    """
+    >>> a = divisible_by_k(10, 2)  # 2, 4, 6, 8, and 10 are divisible by 2
+    2
+    4
+    6
+    8
+    10
+    >>> a
+    5
+    >>> b = divisible_by_k(3, 1)  # 1, 2, and 3 are divisible by 1
+    1
+    2
+    3
+    >>> b
+    3
+    >>> c = divisible_by_k(6, 7)  # There are no integers up to 6 divisible by 7
+    >>> c
+    0
+    """
+    "*** YOUR CODE HERE ***"
+    count = 0
+    x = 1
+    while(x<=n):
+        if(x%k==0):
+            print(x)
+            count += 1
+        x += 1
+    return count
+
+
 def divide(quotients, divisors):
     """Return a dictonary in which each quotient q is a key for the list of
     divisors that it divides evenly.
@@ -7,7 +38,7 @@ def divide(quotients, divisors):
     >>> divide(range(1, 5), range(20, 25))
     {1: [20, 21, 22, 23, 24], 2: [20, 22, 24], 3: [21, 24], 4: [20, 24]}
     """
-    return {____: ____ for ____ in ____}
+    return { x : [ y for y in divisors if y % x == 0 ] for x in quotients }
 
 
 def buy(fruits_to_buy, prices, total_amount):
@@ -24,17 +55,16 @@ def buy(fruits_to_buy, prices, total_amount):
     [6 apples][2 kiwis]
     [9 apples][1 kiwi]
     """
-    def add(fruits, amount, cart):
+    def add(fruits, amount, cart):  #fruits是外部的fruits_to_buy，amount是外部的total_amount，cart是一个字符串，记录已经买了什么水果
         if fruits == [] and amount == 0:
             print(cart)
         elif fruits and amount > 0:
             fruit = fruits[0]
-            price = ____
-            for k in ____:
+            price = prices[fruit]
+            for k in range(1, amount // price + 1):  # k是购买fruit的数量，最多只能买amount // price个
                 # Hint: The display function will help you add fruit to the cart.
-                add(____, ____, ____)
+                add(fruits[1:], amount - price * k, cart + display(fruit,k))   #去除当前递归中的水果种类供其他水果调用
     add(fruits_to_buy, total_amount, '')
-
 
 def display(fruit, count):
     """Display a count of a fruit in square brackets.
@@ -67,6 +97,7 @@ def distance(city_a, city_b):
     5.0
     """
     "*** YOUR CODE HERE ***"
+    return sqrt( (get_lat(city_a)-get_lat(city_b)) ** 2 + (get_lon(city_a)-get_lon(city_b)) ** 2 )
 
 def closer_city(lat, lon, city_a, city_b):
     """
@@ -84,6 +115,11 @@ def closer_city(lat, lon, city_a, city_b):
     'Bucharest'
     """
     "*** YOUR CODE HERE ***"
+    city_c = make_city('target', lat, lon)
+    if distance(city_c, city_a) < distance(city_c, city_b):
+        return get_name(city_a)
+    else:
+        return get_name(city_b)
 
 def check_city_abstraction():
     """
